@@ -15,6 +15,7 @@ const LoginPageContainer = () => {
   const { mutate: login, isLoading } = useMutation(api.login, {
     onSuccess: ({ data }) => {
       Cookies.set("access_token", data.message.access_token);
+      Cookies.set("role", data.message.role);
       navigate("/dashboard");
     },
     onError: (err) => {

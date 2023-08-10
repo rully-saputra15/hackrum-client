@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   height: 100%;
-  
+  background-color:hsla(48,26%,96%,1);
+  background-image:
+  radial-gradient(at 74% 71%, hsla(204,18%,26%,0.25) 0px, transparent 50%),
+  radial-gradient(at 24% 23%, hsla(34,88%,53%,0.19) 0px, transparent 50%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

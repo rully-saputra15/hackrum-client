@@ -20,11 +20,17 @@ const LoginPage: FC<LoginPageProps> = ({
         src="https://academic.hacktiv8.com/static/media/hacktiv-navbar.35edca5f.png"
         className="w-auto h-10 aspect-auto"
       />
-      <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
 
-      {isLoading && <Loading />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={handleLoginError}
+        />
+      )}
 
-      <span className="absolute bottom-3 font-light">
+      <span className="absolute bottom-3 font-bold">
         Created by Rully Saputra
       </span>
     </div>

@@ -3,6 +3,7 @@ import LoginPageContainer from "../pages/login/LoginPageContainer";
 import App from "../App";
 import DashboardPageContainer from "../pages/dashboard/DashboardPageContainer";
 import NavigationGuard from "./NavigatonGuard";
+import QuestionDetailPageContainer from "../pages/question-detail/QuestionDetailPageContainer";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
         element: (
           <NavigationGuard to="dashboard">
             <DashboardPageContainer />
+          </NavigationGuard>
+        ),
+      },
+      {
+        path: "question/:id",
+        element: (
+          <NavigationGuard to="question-detail">
+            <QuestionDetailPageContainer />
           </NavigationGuard>
         ),
       },

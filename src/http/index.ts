@@ -19,6 +19,13 @@ const api = {
                 access_token: Cookies.get("access_token")
             }
         })
+    },
+    getQuestionById(id:string){
+        return instance.get(`/questions/${id}`, {
+            headers: {
+                access_token: Cookies.get("access_token")
+            }
+        })
     }
 }
 
