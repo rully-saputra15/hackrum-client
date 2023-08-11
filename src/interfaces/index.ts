@@ -16,3 +16,16 @@ export interface ProblemType {
   title: string;
   color: string;
 }
+
+export interface CreateQuestionParams{
+  title:string;
+  description:string;
+  problemType: number;
+  phase:number;
+}
+
+export interface UpdateQuestionParams{
+  id:string;
+  answer: string,
+}
+

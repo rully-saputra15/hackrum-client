@@ -11,7 +11,7 @@ type QuestionCardProps = {
 const QuestionCard: FC<QuestionCardProps> = ({ question, handleClick }) => {
   return (
     <article
-      className={`p-5 border border-gray-300 w-56 rounded-lg shadow-md flex flex-col justify-between relative basis-52 gap-3 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 bg-white`}
+      className={`p-5 border border-gray-300 w-56 rounded-lg shadow-md flex flex-col justify-between relative basis-72 gap-3 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 bg-white`}
       onClick={handleClick}
       key={question.id}
     >
@@ -20,9 +20,10 @@ const QuestionCard: FC<QuestionCardProps> = ({ question, handleClick }) => {
           {question.title.toUpperCase()}
         </h2>
         <span className="font-medium text-sm">Phase: {question.phase}</span>
-        <p className="font-light text-sm line-clamp-2">
-          {question.description}
-        </p>
+        <p
+          dangerouslySetInnerHTML={{ __html: question.description }}
+          className="font-light text-sm line-clamp-2"
+        ></p>
       </div>
       <Badge
         backgroundColor={question.type.color}

@@ -8,6 +8,7 @@ import api from "../../http";
 
 import LoginPage from "./LoginPage";
 import { useMutation } from "react-query";
+import { showErrorToast } from "../../utils/toast";
 
 const LoginPageContainer = () => {
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ const LoginPageContainer = () => {
       Cookies.set("role", data.message.role);
       navigate("/dashboard");
     },
-    onError: (err) => {
-      console.log(err);
+    onError: ({ response }) => {
+      showErrorToast(response?.data?.message);
     },
   });
   const handleLoginSuccess = useCallback(

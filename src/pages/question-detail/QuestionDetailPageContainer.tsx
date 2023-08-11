@@ -2,11 +2,13 @@ import { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Cookies from "js-cookie";
 import QuestionDetailPage from "./QuestionDetailPage";
-import { ContentState, EditorState, convertFromHTML } from "draft-js";
-import { useQuery } from "react-query";
+import { EditorState, convertToRaw } from "draft-js";
+import { useMutation, useQuery } from "react-query";
 import api from "../../http";
 import { Question } from "../../interfaces";
 import Loading from "../../components/Loading";
+import draftToHtml from "draftjs-to-html";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
 
 const QuestionDetailPageContainer = () => {
   const [answer, setAnswer] = useState<EditorState>(EditorState.createEmpty());
@@ -36,16 +38,22 @@ const QuestionDetailPageContainer = () => {
     {
       onSuccess: ({ data }) => {
         setQuestion(data.message);
-        setAnswer(
-          EditorState.createWithContent(
-            ContentState.createFromBlockArray(
-              convertFromHTML(data.message.answer)
-            )
-          )
-        );
+      },
+      onError: ({ response }) => {
+        showErrorToast(response?.data?.message);
       },
     }
   );
+
+  const { mutate: createAnswer } = useMutation(api.answerQuestion, {
+    onSuccess: () => {
+      showSuccessToast("Answer created successfully!");
+    },
+    onError: ({ response }) => {
+      showErrorToast(response?.data?.message);
+    },
+  });
+
   const handleGoBack = useCallback(() => {
     navigate(-1);
   }, [navigate]);
@@ -53,6 +61,15 @@ const QuestionDetailPageContainer = () => {
   const handleAnswerChange = useCallback((answer: EditorState) => {
     setAnswer(answer);
   }, []);
+
+  const handleSubmitAnswer = useCallback(() => {
+    createAnswer({
+      id: question.id,
+      answer: draftToHtml(convertToRaw(answer.getCurrentContent())),
+    });
+    navigate("/dashboard");
+  }, [question, answer, navigate]);
+
   if (isLoading) return <Loading />;
   return (
     <QuestionDetailPage
@@ -61,6 +78,7 @@ const QuestionDetailPageContainer = () => {
       role={role ? role : "student"}
       handleGoBack={handleGoBack}
       handleAnswerChange={handleAnswerChange}
+      handleSubmitAnswer={handleSubmitAnswer}
     />
   );
 };

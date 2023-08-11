@@ -13,6 +13,8 @@ export default {
     "to-[#F1931B]",
     "from-[#F1931B]",
     "hover:bg-[#36454F]",
+    "hover:bg-[#F1931B]",
+    "focus:ring-[#36454F]",
   ],
   plugins: [],
 };

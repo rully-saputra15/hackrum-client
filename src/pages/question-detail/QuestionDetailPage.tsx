@@ -13,6 +13,7 @@ type QuestionDetailPageProps = {
   question: Question;
   handleGoBack: () => void;
   handleAnswerChange: (answer: EditorState) => void;
+  handleSubmitAnswer: () => void;
 };
 
 const QuestionDetailPage: FC<QuestionDetailPageProps> = ({
@@ -21,10 +22,11 @@ const QuestionDetailPage: FC<QuestionDetailPageProps> = ({
   question,
   handleGoBack,
   handleAnswerChange,
+  handleSubmitAnswer,
 }) => {
   return (
     <section
-      className={`flex flex-col gap-2 border border-[${primaryColor}] rounded-md p-3 bg-white shadow-md`}
+      className={`flex flex-col gap-3 border border-[${primaryColor}] rounded-md p-3 bg-white shadow-md`}
     >
       <div className="flex flex-row justify-start gap-2 items-center">
         <BiArrowBack
@@ -43,6 +45,9 @@ const QuestionDetailPage: FC<QuestionDetailPageProps> = ({
           label={question.type.title}
         />
       </div>
+      <span className="text-md">
+        By: <span className="font-bold">{question.user.email}</span>
+      </span>
       <span className="font-medium text-md underline underline-offset-8">
         Description
       </span>
@@ -71,7 +76,7 @@ const QuestionDetailPage: FC<QuestionDetailPageProps> = ({
               },
             }}
           />
-          <Button label="Submit" handleClick={() => {}} />
+          <Button label="Submit" handleClick={handleSubmitAnswer} />
         </>
       ) : (
         <p
