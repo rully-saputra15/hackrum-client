@@ -1,8 +1,7 @@
 import { CredentialResponse } from "@react-oauth/google";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-import axios from "axios";
 
 import api from "../../http";
 
@@ -20,7 +19,11 @@ const LoginPageContainer = () => {
       navigate("/dashboard");
     },
     onError: ({ response }) => {
-      showErrorToast(response?.data?.message);
+      if (response.status === 429) {
+        showErrorToast(response?.data);
+      } else {
+        showErrorToast(response?.data?.message);
+      }
     },
   });
   const handleLoginSuccess = useCallback(

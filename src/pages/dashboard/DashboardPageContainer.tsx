@@ -33,19 +33,24 @@ const DashboardPageContainer = () => {
         setQuestions(data.message);
       },
       onError: ({ response }) => {
-        showErrorToast(response?.data?.message);
+        if (response.status === 429) {
+          showErrorToast(response?.data);
+        } else {
+          showErrorToast(response?.data?.message);
+        }
       },
     }
   );
 
-  const { mutate: createQuestion } = useMutation(api.createQuestion, {
-    onSuccess: () => {
-      showSuccessToast("Question created successfully!");
-    },
-    onError: ({ response }) => {
-      showErrorToast(response?.data?.message);
-    },
-  });
+  const { mutate: createQuestion, isLoading: isLoadingCreateQuestion } =
+    useMutation(api.createQuestion, {
+      onSuccess: () => {
+        showSuccessToast("Question created successfully!");
+      },
+      onError: ({ response }) => {
+        showErrorToast(response?.data?.message);
+      },
+    });
 
   const { data, refetch } = useQuery("types", api.getTypes, {
     enabled: false,
@@ -65,6 +70,7 @@ const DashboardPageContainer = () => {
 
   const handleShowModal = useCallback(() => {
     setIsModalOpen((prev) => !prev);
+    setDescription(EditorState.createEmpty());
     if (!isModalOpen) refetch();
   }, [isModalOpen]);
 
@@ -109,10 +115,15 @@ const DashboardPageContainer = () => {
             className="flex flex-col justify-start grow gap-3"
             onSubmit={handleSubmitNewQuestion}
           >
-            <Input label="Title" name="title" placeholder="Ex: Title" />
+            <Input
+              label="Title"
+              name="title"
+              placeholder="Ex: Title"
+              required
+            />
             <div className="flex flex-row justify-between gap-3">
               <div className="basis-20">
-                <Select label="Phase">
+                <Select label="Phase" required>
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -120,7 +131,7 @@ const DashboardPageContainer = () => {
                 </Select>
               </div>
               <div className="basis-full">
-                <Select label="Type">
+                <Select label="Type" required>
                   {data?.data.message.map((type: any) => (
                     <option key={type.id} value={type.id}>
                       {type.title}
@@ -147,9 +158,14 @@ const DashboardPageContainer = () => {
             />
             <button
               type="submit"
+              disabled={isLoadingCreateQuestion}
               className={`inline-flex w-full justify-center rounded-md bg-[${primaryColor}] px-3 py-2 text-sm font-semibold transition-all duration-300 text-white shadow-sm hover:bg-[${secondaryColor}] sm:w-auto grow`}
             >
-              Submit
+              {isLoadingCreateQuestion ? (
+                <span className="animate-pulse">Loading...</span>
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
         </Modal>

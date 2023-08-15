@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { Question } from "../../interfaces";
-import Loading from "../../components/Loading";
 import { primaryColor, secondaryColor } from "../../styles";
-import Button from "../../components/Button";
+import { HiOutlineLogout } from "react-icons/hi";
 import QuestionCard from "../../components/QuestionCard";
 import Select from "../../components/Select";
+import LoadingDashboard from "../../components/LoadingDashboard";
 
 type DashboardPageProps = {
   data: Question[];
@@ -29,7 +29,10 @@ const DashboardPage: FC<DashboardPageProps> = ({
   return (
     <section className="flex flex-col space-y-5 relative">
       <div className="flex flex-row justify-between items-center w-full">
-        <Button handleClick={handleLogout} label="Logout" />
+        <HiOutlineLogout
+          onClick={handleLogout}
+          className="cursor-pointer text-2xl transition-all duration-200 hover:scale-105"
+        />
         <h1
           className={`font-bold text-4xl grow text-center text-transparent bg-clip-text bg-gradient-to-r from-[${primaryColor}] to-[${secondaryColor}]`}
         >
@@ -41,7 +44,11 @@ const DashboardPage: FC<DashboardPageProps> = ({
         />
       </div>
       <div className="w-32">
-        <Select label="Filter Phase" handleChange={handleFilterQuestions}>
+        <Select
+          label="Filter Phase"
+          handleChange={handleFilterQuestions}
+          required={false}
+        >
           <option value="all">All</option>
           <option value="0">Phase 0</option>
           <option value="1">Phase 1</option>
@@ -49,29 +56,31 @@ const DashboardPage: FC<DashboardPageProps> = ({
           <option value="3">Phase 3</option>
         </Select>
       </div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <div className="flex flex-row justify-center md:justify-start gap-3 flex-wrap">
-          {data
-            .filter((val) => {
-              if (
-                filteredPhase === "all" ||
-                filteredPhase === "" ||
-                +val.phase === +filteredPhase
-              ) {
-                return val;
-              }
-            })
-            .map((question: Question) => (
-              <QuestionCard
-                key={question.id}
-                question={question}
-                handleClick={() => handleNavigateQuestionDetail(question.id)}
-              />
-            ))}
-        </div>
-      )}
+      <div className="flex flex-row justify-center md:justify-start gap-3 flex-wrap">
+        {isLoading ? (
+          <LoadingDashboard />
+        ) : (
+          <>
+            {data
+              .filter((val) => {
+                if (
+                  filteredPhase === "all" ||
+                  filteredPhase === "" ||
+                  +val.phase === +filteredPhase
+                ) {
+                  return val;
+                }
+              })
+              .map((question: Question) => (
+                <QuestionCard
+                  key={question.id}
+                  question={question}
+                  handleClick={() => handleNavigateQuestionDetail(question.id)}
+                />
+              ))}
+          </>
+        )}
+      </div>
     </section>
   );
 };

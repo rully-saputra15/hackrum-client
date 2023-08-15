@@ -5,9 +5,15 @@ type SelectProps = {
   label: string;
   handleChange?: (ev: React.ChangeEvent<HTMLSelectElement>) => void;
   children: React.ReactNode;
+  required: boolean;
 };
 
-const Select: FC<SelectProps> = ({ label, handleChange, children }) => {
+const Select: FC<SelectProps> = ({
+  label,
+  handleChange,
+  children,
+  required,
+}) => {
   return (
     <>
       <label
@@ -20,6 +26,7 @@ const Select: FC<SelectProps> = ({ label, handleChange, children }) => {
         <select
           name={label.toLowerCase()}
           onChange={handleChange}
+          required={required}
           className={`block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 transition-all duration-150 focus:ring-2 focus:ring-inset focus:ring-[${primaryColor}] sm:text-sm sm:leading-6`}
         >
           {children}

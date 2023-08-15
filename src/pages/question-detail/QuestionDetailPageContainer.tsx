@@ -67,6 +67,7 @@ const QuestionDetailPageContainer = () => {
       id: question.id,
       answer: draftToHtml(convertToRaw(answer.getCurrentContent())),
     });
+    setAnswer(EditorState.createEmpty());
     navigate("/dashboard");
   }, [question, answer, navigate]);
 
