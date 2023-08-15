@@ -45,6 +45,8 @@ const DashboardPageContainer = () => {
   const { mutate: createQuestion, isLoading: isLoadingCreateQuestion } =
     useMutation(api.createQuestion, {
       onSuccess: () => {
+        handleShowModal();
+        refetchQuestions();
         showSuccessToast("Question created successfully!");
       },
       onError: ({ response }) => {
@@ -94,8 +96,6 @@ const DashboardPageContainer = () => {
         problemType: +target.type.value,
       };
       createQuestion(newQuestion);
-      handleShowModal();
-      refetchQuestions();
     },
     [description, refetchQuestions]
   );

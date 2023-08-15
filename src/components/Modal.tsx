@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { primaryColor, secondaryColor } from "../styles";
 import { GrFormClose } from "react-icons/gr";
 
 type ModalProps = {
