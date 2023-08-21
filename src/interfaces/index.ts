@@ -9,6 +9,9 @@ export interface Question {
     email: string
   };
   answer: string;
+  answerAuthorUser:{
+    email: string
+  }
   phase: string;
 }
 

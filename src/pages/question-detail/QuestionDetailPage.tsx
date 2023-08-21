@@ -58,6 +58,12 @@ const QuestionDetailPage: FC<QuestionDetailPageProps> = ({
       <span className="font-medium text-md underline underline-offset-8">
         Answer
       </span>
+      {question.answerAuthorUser && (
+        <span className="text-xs">
+          by{" "}
+          <span className="font-bold">{question.answerAuthorUser.email}</span>
+        </span>
+      )}
       {role === "instructor" && question.status !== "solved" ? (
         <>
           <Editor

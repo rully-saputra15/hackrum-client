@@ -25,6 +25,9 @@ const QuestionDetailPageContainer = () => {
     user: {
       email: "",
     },
+    answerAuthorUser: {
+      email: "",
+    },
     imgUrl: "",
     phase: "",
   });
